@@ -6052,15 +6052,22 @@ function run() {
             const token = core.getInput('github-token', { required: true });
             const octokit = github.getOctokit(token);
             const context = github.context;
-            console.log('context.payload.pull_request', context.payload.pull_request);
+            const labelToSkip = core.getInput('label-to-skip');
+            // if(labelToSkip) {
+            //   return;
+            // }
             // Request the pull request diff from the GitHub API
-            const { data: prDiff } = yield octokit.pulls.get({
+            const { data: prDiff, labels } = yield octokit.pulls.get({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: context.payload.pull_request.number,
                 mediaType: {
                     format: "diff",
                 },
+            });
+            console.log('labels', {
+                labels,
+                labelToSkip
             });
             const files = parse(prDiff);
             // Get changed chunks
@@ -6077,8 +6084,8 @@ function run() {
                 });
             });
             // Check that the pull request diff does not contain the forbidden string
-            const diffDoesNotContain = core.getInput('diffDoesNotContain');
-            const diffDoesNotContainCount = parseInt(core.getInput('diffDoesNotContainCount') || 5, 10);
+            const diffDoesNotContain = core.getInput('diff-not-contain');
+            const diffDoesNotContainCount = parseInt(core.getInput('diff-not-contain-count') || 5, 10);
             if (diffDoesNotContain && changes.includes(diffDoesNotContain)) {
                 const timesFound = (changes.match(new RegExp(diffDoesNotContain, "g")) || []).length;
                 console.log('??', {
