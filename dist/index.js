@@ -6057,13 +6057,19 @@ function run() {
             //   return;
             // }
             // Request the pull request diff from the GitHub API
-            const { data: prDiff, labels } = yield octokit.pulls.get({
+            const { data: prDiff } = yield octokit.pulls.get({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 pull_number: context.payload.pull_request.number,
                 mediaType: {
                     format: "diff",
                 },
+            });
+            // /repos/{owner}/{repo}/issues/{issue_number}/labels
+            const { labels } = yield octokit.issues.get({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.payload.pull_request.number,
             });
             console.log('labels', {
                 labels,
