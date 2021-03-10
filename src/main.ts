@@ -9,7 +9,7 @@ async function run() {
     const octokit = github.getOctokit(token)
     const context = github.context
 
-    core.debug('context.payload.pull_request', context.payload.pull_request)
+    console.log('context.payload.pull_request', context.payload.pull_request)
 
     // Request the pull request diff from the GitHub API
     const { data: prDiff } = await octokit.pulls.get({
@@ -43,7 +43,7 @@ async function run() {
     if (diffDoesNotContain && changes.includes(diffDoesNotContain)) {
       const timesFound = (changes.match(new RegExp(diffDoesNotContain, "g")) || []).length;
 
-      core.debug('??', {
+      console.log('??', {
         timesFound,
         diffDoesNotContainCount
       })
