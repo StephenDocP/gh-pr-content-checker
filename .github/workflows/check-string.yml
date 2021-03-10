@@ -11,4 +11,6 @@ jobs:
         uses: StephenDocP/gh-pr-content-checker@feat/testing
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          diffDoesNotContain: "bad string"
+          diff-not-contain: "bad string"
+          diff-not-contain-count: 2
+          label-to-skip: "skip-testid-check"

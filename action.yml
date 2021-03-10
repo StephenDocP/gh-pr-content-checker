@@ -7,23 +7,12 @@ branding:
 inputs:
   github-token:
     description: "Github token, added magically"
-  bodyContains:
-    description: "String that must be in the PR body"
-  bodyDoesNotContain:
-    description: "String that must not be in the PR body"
-  diffContains:
-    description: "String that must be in the PR diff"
-  diffDoesNotContain:
-    description: "String that must not be in the PR diff"
-  diffDoesNotContainCount:
-    description: "Times the diff can appear before failing"
-  maxLinesChanged:
-    description: "Max number of lines changed per PR"
-  maxFilesChanged:
-    description: "Max number of files changed per PR"
-outputs:
-  diff:
-    description: "Lines added to the PR"
+  label-to-skip:
+    description: "The name of a label to allow the check to skip"
+  diff-not-contain:
+    description: "The keyword we are looking for"
+  diff-not-contain-count:
+    description: "The times the keyword can be mentioned before the check fails"
 
 runs:
   using: "node12"
